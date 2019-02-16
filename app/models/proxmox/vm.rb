@@ -7,6 +7,11 @@ module Proxmox
         Proxmox::Node.all.map(&:vms).flatten
       end
 
+      def find(id)
+        id = id.to_i
+        all.find { |vm| vm.vmid == id }
+      end
+
       def where(params = {})
         return [] if params[:node].blank?
 
@@ -27,25 +32,25 @@ module Proxmox
                   :mem, :pid, :template, :diskread, :vmid, :netin,
                   :status, :name, :netout, :disk, :uptime, :node
 
-    def start!
-      return if @status == 'running'
+    alias id vmid
 
+    def running?
+      @status == 'running'
+    end
+
+    def start!
       Proxmox::API
         .post("nodes/#{node.name}/qemu/#{vmid}/status/start")
         .fetch(:data)
     end
 
     def stop!
-      return if @status == 'stopped'
-
       Proxmox::API
         .post("nodes/#{node.name}/qemu/#{vmid}/status/stop")
         .fetch(:data)
     end
 
     def shutdown!
-      return if @status == 'stopped'
-
       Proxmox::API
         .post("nodes/#{node.name}/qemu/#{vmid}/status/shutdown")
         .fetch(:data)
@@ -82,6 +87,8 @@ module Proxmox
     end
 
     def network_interfaces
+      return [] unless running?
+
       Proxmox::API
         .get(
           "nodes/#{node.name}/qemu/#{vmid}" \

@@ -2,3 +2,6 @@
   .machine
     h1 = machine.name
     p Status: #{machine.status}
+    p = link_to t('.hold'), hold_machine_path(machine.id), method: :put
+    p = link_to t('.release'), release_machine_path(machine.id), method: :put
+    p = debug machine.network_interfaces

@@ -12,6 +12,6 @@ module Proxmox
     end
 
     attr_accessor :user, :id, :type, :endtime, :status, :upid,
-                  :node, :starttime, :saved
+                  :node, :starttime, :saved, :pid
   end
 end

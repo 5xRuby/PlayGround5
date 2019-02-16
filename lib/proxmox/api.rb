@@ -4,6 +4,9 @@ require 'net/http'
 
 module Proxmox
   class API
+    class AuthorizationError < RuntimeError; end
+    class ServerError < RuntimeError; end
+
     class << self
       delegate :respond_to_missing?, to: :instance
 
@@ -53,7 +56,7 @@ module Proxmox
       start(uri, req, &block)
     end
 
-    def start(uri, req, &_block)
+    def start(uri, req, &block)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == 'https'
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE unless verify_ssl
@@ -61,12 +64,23 @@ module Proxmox
       # TODO: Handling failed API request
       http.start do
         res = http.request(req)
-        break yield res if block_given?
-
-        Oj.load(res.body)&.with_indifferent_access || {}
+        handle_response(res, &block)
       end
+    end
+
+    def handle_response(res, &_block)
+      check_invalid_response(res)
+      return yield res if block_given?
+
+      Oj.load(res.body)&.with_indifferent_access || {}
     rescue Oj::ParseError
       {}
+    end
+
+    def check_invalid_response(res)
+      code = res.code.to_i
+      raise AuthorizationError if code == 401
+      raise ServerError, res.message if code >= 500 && code < 600
     end
 
     def build_request(klass, uri, headers, params, with_token)
