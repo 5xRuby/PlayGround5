@@ -266,6 +266,13 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
   # end
+  config.warden do |manager|
+    manager.failure_app = Class.new(Devise::FailureApp) do
+      def route(_scope)
+        :user_gitlab_omniauth_authorize_path
+      end
+    end
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -287,4 +294,10 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
   # end
+
+  config.omniauth :gitlab,
+                  Rails.application.credentials.gitlab[:client_id],
+                  Rails.application.credentials.gitlab[:client_secret],
+                  scope: 'read_user',
+                  client_options: { site: Rails.application.credentials.gitlab[:site] }
 end
