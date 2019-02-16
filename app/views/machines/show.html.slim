@@ -1,0 +1,11 @@
+h1 = @machine.name
+p = @machine.status
+
+- @interfaces.each do |interface|
+  .interface
+    h2 = interface['name']
+    - interface['ip-addresses']&.each do |address|
+      p
+        | Type: #{address['ip-address-type']}
+        br
+        | Address #{address['ip-address']}

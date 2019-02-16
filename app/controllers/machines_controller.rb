@@ -7,6 +7,11 @@ class MachinesController < ApplicationController
     @machines = Proxmox::VM.all.sort_by(&:vmid)
   end
 
+  def show
+    @machine = Proxmox::VM.find(params[:id])
+    @interfaces = @machine.network_interfaces
+  end
+
   def hold
     service = HoldVMService.new(params[:id], current_user)
     service.perform
