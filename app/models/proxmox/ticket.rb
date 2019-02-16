@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-require_dependency 'proxmox/api'
-
 module Proxmox
-  class Ticket
+  class Ticket < Base
     class << self
       def create(username, password, relam = :pve)
         params = {
@@ -17,12 +15,6 @@ module Proxmox
       end
     end
 
-    attr_reader :token, :csrf_token, :username
-
-    def initialize(params = {})
-      params.each do |k, v|
-        instance_variable_set(:"@#{k}", v)
-      end
-    end
+    attr_accessor :token, :csrf_token, :username
   end
 end
