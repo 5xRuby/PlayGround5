@@ -47,6 +47,7 @@ module Proxmox
     def request(method, path, headers, params, &block)
       klass = Net::HTTP.const_get(method)
       uri = endpoint(path)
+      uri.query = URI.encode_www_form(params || headers)
       with_token = path != 'access/ticket'
       req = build_request(klass, uri, headers, params, with_token)
       start(uri, req, &block)
@@ -57,11 +58,12 @@ module Proxmox
       http.use_ssl = uri.scheme == 'https'
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE unless verify_ssl
 
+      # TODO: Handling failed API request
       http.start do
         res = http.request(req)
         break yield res if block_given?
 
-        Oj.load(res.body)&.with_indifferent_access
+        Oj.load(res.body)&.with_indifferent_access || {}
       end
     rescue Oj::ParseError
       {}
@@ -77,14 +79,12 @@ module Proxmox
     end
 
     def set_body(req, params, with_token)
-      case req
-      when Net::HTTP::Get, Net::HTTP::Delete
-        req.uri.query = URI.encode_www_form(params)
-      else
-        req['Content-Type'] = 'application/x-www-form-urlencoded'
-        req['CSRFPreventionToken'] = @ticket&.csrf_token if with_token
-        req.body = URI.encode_www_form(params)
-      end
+      return if req.is_a?(Net::HTTP::Get)
+      return if req.is_a?(Net::HTTP::Delete)
+
+      req['Content-Type'] = 'application/x-www-form-urlencoded'
+      req['CSRFPreventionToken'] = @ticket&.csrf_token if with_token
+      req.body = URI.encode_www_form(params)
     end
 
     def preferences

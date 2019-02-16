@@ -32,6 +32,7 @@ module Proxmox
 
       Proxmox::API
         .post("nodes/#{node.name}/qemu/#{vmid}/status/start")
+        .fetch(:data)
     end
 
     def stop!
@@ -39,6 +40,7 @@ module Proxmox
 
       Proxmox::API
         .post("nodes/#{node.name}/qemu/#{vmid}/status/stop")
+        .fetch(:data)
     end
 
     def shutdown!
@@ -46,6 +48,7 @@ module Proxmox
 
       Proxmox::API
         .post("nodes/#{node.name}/qemu/#{vmid}/status/shutdown")
+        .fetch(:data)
     end
 
     def reinitialize!
@@ -54,6 +57,28 @@ module Proxmox
           "nodes/#{node.name}/qemu/#{vmid}" \
           '/snapshot/initialize_state/rollback'
         )
+        .fetch(:data)
+    end
+
+    def authorized_keys
+      Proxmox::API
+        .get(
+          "nodes/#{node.name}/qemu/#{vmid}/agent/file-read",
+          file: '/root/.ssh/authorized_keys'
+        )
+        .dig(:data, :content)
+        &.split("\n")
+    end
+
+    def install_authorized_keys(keys)
+      keys = keys.join("\n") if keys.is_a?(Array)
+      Proxmox::API
+        .post(
+          "nodes/#{node.name}/qemu/#{vmid}/agent/file-write",
+          content: keys,
+          file: '/root/.ssh/authorized_keys'
+        )
+        .fetch(:data)
     end
   end
 end
