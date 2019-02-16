@@ -5,6 +5,7 @@ class AddGitlabToUsers < ActiveRecord::Migration[5.2]
     change_table :users, bulk: true do |t|
       t.integer :gitlab_id
       t.string :username
+      t.string :access_token
       t.index :gitlab_id
     end
   end

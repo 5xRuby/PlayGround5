@@ -5,6 +5,7 @@
 # Table name: users
 #
 #  id                  :bigint(8)        not null, primary key
+#  access_token        :string
 #  remember_created_at :datetime
 #  username            :string
 #  created_at          :datetime         not null

@@ -298,6 +298,6 @@ Devise.setup do |config|
   config.omniauth :gitlab,
                   Rails.application.credentials.gitlab[:client_id],
                   Rails.application.credentials.gitlab[:client_secret],
-                  scope: 'read_user',
+                  scope: 'api read_user',
                   client_options: { site: Rails.application.credentials.gitlab[:site] }
 end

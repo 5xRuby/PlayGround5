@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2019_02_16_154217) do
     t.datetime "updated_at", null: false
     t.integer "gitlab_id"
     t.string "username"
+    t.string "access_token"
     t.index ["gitlab_id"], name: "index_users_on_gitlab_id"
   end
 
