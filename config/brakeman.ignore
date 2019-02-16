@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SSL Verification Bypass",
+      "warning_code": 71,
+      "fingerprint": "31767bcceed3958fe2b1d7c2c6d7c27408f9ddf7a289340d744df64d1b8c9d55",
+      "check_name": "SSLVerify",
+      "message": "SSL certificate verification was bypassed",
+      "file": "lib/proxmox/api.rb",
+      "line": 62,
+      "link": "https://brakemanscanner.org/docs/warning_types/ssl_verification_bypass/",
+      "code": "Net::HTTP.new(uri.host, uri.port).verify_mode = OpenSSL::SSL::VERIFY_NONE",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Proxmox::API",
+        "method": "start"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": "Local Proxmox VE API, not correct SSL is support"
+    }
+  ],
+  "updated": "2019-02-17 01:36:29 +0800",
+  "brakeman_version": "4.4.0"
+}
