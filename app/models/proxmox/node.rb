@@ -24,7 +24,7 @@ module Proxmox
       Proxmox::API
         .get("nodes/#{name}/qemu")
         .fetch(:data, [])
-        .map { |vm| VM.new(vm) }
+        .map { |vm| VM.new(vm.merge(node: self)) }
     end
   end
 end

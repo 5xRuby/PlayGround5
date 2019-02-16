@@ -25,6 +25,35 @@ module Proxmox
 
     attr_accessor :cpu, :diskwrite, :maxdisk, :maxmem, :cpus,
                   :mem, :pid, :template, :diskread, :vmid, :netin,
-                  :status, :name, :netout, :disk, :uptime
+                  :status, :name, :netout, :disk, :uptime, :node
+
+    def start!
+      return if @status == 'running'
+
+      Proxmox::API
+        .post("nodes/#{node.name}/qemu/#{vmid}/status/start")
+    end
+
+    def stop!
+      return if @status == 'stopped'
+
+      Proxmox::API
+        .post("nodes/#{node.name}/qemu/#{vmid}/status/stop")
+    end
+
+    def shutdown!
+      return if @status == 'stopped'
+
+      Proxmox::API
+        .post("nodes/#{node.name}/qemu/#{vmid}/status/shutdown")
+    end
+
+    def reinitialize!
+      Proxmox::API
+        .post(
+          "nodes/#{node.name}/qemu/#{vmid}" \
+          '/snapshot/initialize_state/rollback'
+        )
+    end
   end
 end
