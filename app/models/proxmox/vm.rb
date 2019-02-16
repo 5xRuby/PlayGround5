@@ -80,5 +80,14 @@ module Proxmox
         )
         .fetch(:data)
     end
+
+    def network_interfaces
+      Proxmox::API
+        .get(
+          "nodes/#{node.name}/qemu/#{vmid}" \
+          '/agent/network-get-interfaces'
+        )
+        .dig(:data, :result) || []
+    end
   end
 end
