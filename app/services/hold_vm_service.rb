@@ -31,6 +31,8 @@ class HoldVMService
     loop do
       tasks = Proxmox::Task.all
       break if tasks.find { |t| t.upid == id && t.status == 'OK' }
+
+      sleep 0.5
     end
   end
 
