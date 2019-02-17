@@ -8,3 +8,15 @@ zh-TW:
     navbar:
       <<: *sidebar
   machines:
+    index: &index
+      hold: 使用
+      release: 釋放
+      status:
+        running: 運行中
+        stopped: 已停止
+    show:
+      <<: *index
+      network_interfaces: 網路介面
+      name: 名稱
+      type: 類型
+      address: 位址

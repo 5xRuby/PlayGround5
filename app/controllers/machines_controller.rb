@@ -16,7 +16,7 @@ class MachinesController < ApplicationController
   def hold
     service = HoldVMService.new(params[:id], current_user)
     service.perform
-    redirect_to machines_path
+    redirect_to machine_path(params[:id])
   end
 
   def release

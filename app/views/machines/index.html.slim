@@ -5,7 +5,7 @@
         .card-header.card-header-icon[class="#{machine.running? ? 'card-header-success' : 'card-header-danger'}"]
           .card-icon
             i.material-icons computer
-          p.card-category = machine.status
+          p.card-category = t(".status.#{machine.status}")
           h3.card-title = link_to machine.name, machine_path(machine.id)
         .card-footer
           .actions.text-right

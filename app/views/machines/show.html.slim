@@ -23,9 +23,15 @@
                     td = address['ip-address']
   .col-md-4
     .card.card-profile
-      .card-avatar.bg-white
-        = image_tag "vm/logos/#{@os['id']}.svg", class: 'img'
+      - if @os['id'].present?
+        .card-avatar.bg-white
+          = image_tag "vm/logos/#{@os['id']}.svg", class: 'img'
       .card-body
         h6.card-category = @os['pretty-name']
         h4.card-title = @machine.name
-        p.card-description = @machine.status
+        p.card-description = t(".status.#{@machine.status}")
+        p.text-center
+          - if @machine.running?
+            = link_to t('.release'), release_machine_path(@machine.id), method: :put, class: 'btn btn-sm btn-success'
+          - else
+            = link_to t('.hold'), hold_machine_path(@machine.id), method: :put, class: 'btn btn-sm btn-warning'
