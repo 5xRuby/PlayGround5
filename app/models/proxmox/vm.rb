@@ -96,5 +96,16 @@ module Proxmox
         )
         .dig(:data, :result) || []
     end
+
+    def osinfo
+      return {} unless running?
+
+      Proxmox::API
+        .get(
+          "nodes/#{node.name}/qemu/#{vmid}" \
+          '/agent/get-osinfo'
+        )
+        .dig(:data, :result) || {}
+    end
   end
 end

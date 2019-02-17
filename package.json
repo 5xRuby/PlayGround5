@@ -1,5 +1,7 @@
 {
   "name": "Playground5",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "material-dashboard-dark-edition": "^2.1.0"
+  }
 }

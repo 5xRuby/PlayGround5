@@ -1,6 +1,15 @@
-- @machines.each do |machine|
-  .machine
-    h1 = machine.name
-    p Status: #{machine.status}
-    p = link_to t('.hold'), hold_machine_path(machine.id), method: :put
-    p = link_to t('.release'), release_machine_path(machine.id), method: :put
+.row
+  - @machines.each do |machine|
+    .col-6
+      .card.card-stats
+        .card-header.card-header-icon[class="#{machine.running? ? 'card-header-success' : 'card-header-danger'}"]
+          .card-icon
+            i.material-icons computer
+          p.card-category = machine.status
+          h3.card-title = link_to machine.name, machine_path(machine.id)
+        .card-footer
+          .actions.text-right
+            - if machine.running?
+              = link_to t('.release'), release_machine_path(machine.id), method: :put, class: 'btn btn-sm btn-success'
+            - else
+              = link_to t('.hold'), hold_machine_path(machine.id), method: :put, class: 'btn btn-sm btn-warning'

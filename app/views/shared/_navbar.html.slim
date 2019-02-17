@@ -1,0 +1,13 @@
+nav.navbar.navbar-expand-lg.navbar-transparent.navbar-absolute.fixed-top#navigation
+  .container-fluid
+    .navbar-wrapper
+      / TODO: Render current page name
+      = link_to t('.machines'), 'javascript: void(0)', class: 'navbar-brand'
+    button.navbar-toggler type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation"
+      span.sr-only t('.toggle_navigation')
+      span.navbar-toggler-icon.icon-bar
+      span.navbar-toggler-icon.icon-bar
+      span.navbar-toggler-icon.icon-bar
+    .collapse.navbar-collapse.justify-content-end
+      ul.navbar-nav
+        / TODO

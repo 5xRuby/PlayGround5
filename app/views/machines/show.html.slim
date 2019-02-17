@@ -1,11 +1,31 @@
-h1 = @machine.name
-p = @machine.status
-
-- @interfaces.each do |interface|
-  .interface
-    h2 = interface['name']
-    - interface['ip-addresses']&.each do |address|
-      p
-        | Type: #{address['ip-address-type']}
-        br
-        | Address #{address['ip-address']}
+.row
+  .col-md-8
+    .card
+      .card-header.card-header-danger
+        h4.card-title = t('.network_interfaces')
+      .card-body
+        .table-responsive
+          table.table
+            thead.text-primary
+              th = t('.name')
+              th = t('.type')
+              th = t('.address')
+            tbody
+              - @interfaces.each do |interface|
+                tr
+                  td = interface['name']
+                  td
+                  td
+                - interface['ip-addresses']&.each do |address|
+                  tr
+                    td
+                    td = address['ip-address-type']
+                    td = address['ip-address']
+  .col-md-4
+    .card.card-profile
+      .card-avatar.bg-white
+        = image_tag "vm/logos/#{@os['id']}.svg", class: 'img'
+      .card-body
+        h6.card-category = @os['pretty-name']
+        h4.card-title = @machine.name
+        p.card-description = @machine.status

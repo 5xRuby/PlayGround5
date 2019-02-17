@@ -1,0 +1,9 @@
+.sidebar data-color="danger" data-background-color="black"
+  .logo
+    = link_to t('site_name'), root_path, class: 'simple-text logo-normal'
+  .sidebar-wrapper
+    ul.nav
+      li.nav-item.active
+        = link_to machines_path, class: 'nav-link' do
+          i.material-icons cloud
+          p #{t('.machines')}

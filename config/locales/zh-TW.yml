@@ -1,0 +1,10 @@
+zh-TW:
+  site_name: Play Ground 5
+  shared:
+    sidebar: &sidebar
+      machines: 伺服器列表
+    footer:
+      5xruby: 五倍紅寶石
+    navbar:
+      <<: *sidebar
+  machines:

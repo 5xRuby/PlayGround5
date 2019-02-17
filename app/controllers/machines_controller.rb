@@ -10,6 +10,7 @@ class MachinesController < ApplicationController
   def show
     @machine = Proxmox::VM.find(params[:id])
     @interfaces = @machine.network_interfaces
+    @os = @machine.osinfo
   end
 
   def hold

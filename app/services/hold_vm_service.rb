@@ -27,6 +27,7 @@ class HoldVMService
   private
 
   def wait_task(id)
+    # TODO: Use nodes/{node}/tasks/{upid}/status instead pull all tasks
     loop do
       tasks = Proxmox::Task.all
       break if tasks.find { |t| t.upid == id && t.status == 'OK' }
