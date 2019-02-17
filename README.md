@@ -70,6 +70,9 @@ Rails 需要 JavaScript Runtime 一般會使用 Node.js。
 
 ```bash
 brew install node
+
+# 安裝前端套件
+brew install yarn
 ```
 
 ### Rails
@@ -85,6 +88,9 @@ bundle install
 
 # 設定 git hook
 bundle exec overcommit --install
+
+# 安裝前端套件
+yarn install
 ```
 
 Overcommit 會做以下檢查：
