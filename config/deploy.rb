@@ -4,14 +4,14 @@
 lock '~> 3.11.0'
 
 set :application, 'playground5'
-set :repo_url, 'git@example.com:me/my_repo.git'
+set :repo_url, 'git@git.5xruby.tw:devops/playground5.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 ask :branch, :master
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/src/app'
+set :deploy_to, '/home/deploy/playground.5xruby.tw'
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -31,7 +31,7 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
        'public/uploads', 'node_modules'
 
 # Default value for default_env is {}
-set :default_env, path: '/usr/local/ruby-2.5.1/bin:$PATH'
+set :default_env, path: '/usr/local/ruby25/bin:$PATH'
 
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
