@@ -8,7 +8,11 @@ set :repo_url, 'git@git.5xruby.tw:devops/playground5.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
-ask :branch, :master
+if ENV.fetch('CI', false)
+  set :branch, :master
+else
+  ask :branch, :master
+end
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/deploy/playground.5xruby.tw'

@@ -60,16 +60,16 @@ rspec:
   except:
     - schedules
 
-# staging:deploy:
-#   stage: deploy
-#   before_script:
-#     - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
-#     - eval $(ssh-agent -s)
-#     - ssh-add <(echo -e "$SSH_PRIVATE_KEY")
-#     - bundle install --path vendor
-#   script:
-#     - bundle exec cap staging deploy
-#   only:
-#     - master
-#   except:
-#     - schedules
+deploy:
+  stage: deploy
+  before_script:
+    - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo -e "$SSH_PRIVATE_KEY")
+    - bundle install --path vendor
+  script:
+    - bundle exec cap staging deploy
+  only:
+    - master
+  except:
+    - schedules
