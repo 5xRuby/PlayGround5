@@ -33,6 +33,7 @@ module Proxmox
                     else
                       preferences[:verify_ssl]
                     end
+      @retires = 0
     end
 
     def endpoint(path)
@@ -51,9 +52,14 @@ module Proxmox
       klass = Net::HTTP.const_get(method)
       uri = endpoint(path)
       uri.query = URI.encode_www_form(params || headers)
-      with_token = path != 'access/ticket'
-      req = build_request(klass, uri, headers, params, with_token)
+      req = build_request(klass, uri, headers, params, path != 'access/ticket')
       start(uri, req, &block)
+    rescue AuthorizationError
+      raise if @retires >= 3
+
+      @retires += 1
+      @ticket = Proxmox::Ticket.create(@username, @password)
+      retry
     end
 
     def start(uri, req, &block)
@@ -70,6 +76,7 @@ module Proxmox
 
     def handle_response(res, &_block)
       check_invalid_response(res)
+      @retries = 0
       return yield res if block_given?
 
       Oj.load(res.body)&.with_indifferent_access || {}
