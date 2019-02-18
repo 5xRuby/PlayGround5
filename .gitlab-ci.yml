@@ -68,7 +68,7 @@ deploy:
     - ssh-add <(echo -e "$SSH_PRIVATE_KEY")
     - bundle install --path vendor
   script:
-    - bundle exec cap staging deploy
+    - bundle exec cap production deploy
   only:
     - master
   except:
