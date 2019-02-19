@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 if @environment == 'production'
-  set :job_template, "bash -l -c 'export PATH=/usr/local/ruby25/bin:$PATH && :job'"
+  # TODO: Read Capistrano configure to prevent hardcode
+  set :job_template, "bash -l -c 'export PATH=/usr/local/ruby25/bin:/usr/local/bin:$PATH && :job'"
   job_type :runner,  'cd :path && bin/rails runner -e :environment ":task" :output'
 end
 
