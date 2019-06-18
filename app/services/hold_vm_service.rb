@@ -12,7 +12,7 @@ class HoldVMService
 
   def perform
     # rubocop:disable Style/ColonMethodCall
-    Timeout::timeout(30) do
+    Timeout::timeout(45) do
       vm = Proxmox::VM.find(@vmid)
       wait_task vm.reinitialize!
       wait_task vm.start!
