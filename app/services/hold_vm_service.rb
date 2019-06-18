@@ -16,6 +16,7 @@ class HoldVMService
       vm = Proxmox::VM.find(@vmid)
       wait_task vm.reinitialize!
       wait_task vm.start!
+      sleep 1 # Wait Qemu Guest Agent started
       install(vm, @user.keys)
       true
     end
