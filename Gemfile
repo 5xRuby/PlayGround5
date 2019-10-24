@@ -3,10 +3,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '~> 2.5.1'
+ruby '~> 2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -46,7 +46,8 @@ group :development, :test do
 
   gem 'brakeman', require: false
   gem 'bundler-audit', '~> 0.6.0', require: false
-  gem 'rubocop', '~> 0.60.0', require: false
+  gem 'rubocop', '~> 0.71.0', require: false
+  gem 'rubocop-performance', require: false
 
   gem 'database_rewinder'
   gem 'factory_bot_rails'

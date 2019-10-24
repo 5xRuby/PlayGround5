@@ -19,7 +19,7 @@ cache:
 rubocop:
   stage: lint
   before_script:
-    - gem install rubocop -v 0.60.0
+    - bundle install --path vendor --no-ri --no-rdoc
   script:
     - rubocop
   except:
@@ -50,7 +50,7 @@ rspec:
     - curl -SLO https://nodejs.org/dist/v$NODE_VERSION/node-v${NODE_VERSION}-linux-x64.tar.xz && tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz -C /usr/local --strip-components=1;
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - export PATH=$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH
-    - bundle install --without development --path vendor
+    - bundle install --without development --path vendor --no-ri --no-rdoc
     - yarn install
   services:
     - postgres:9.6
@@ -66,7 +66,7 @@ deploy:
     - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
     - eval $(ssh-agent -s)
     - ssh-add <(echo -e "$SSH_PRIVATE_KEY")
-    - bundle install --path vendor
+    - bundle install --path vendor --no-ri --no-rdoc
   script:
     - bundle exec cap production deploy
   only:
