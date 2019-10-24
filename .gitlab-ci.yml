@@ -21,7 +21,7 @@ rubocop:
   before_script:
     - bundle install --path vendor
   script:
-    - rubocop
+    - bundle exec rubocop
   except:
     - schedules
 

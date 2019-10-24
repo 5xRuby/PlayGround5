@@ -23,6 +23,10 @@ Metrics:
     - config/**/*
     - spec/**/*
     - lib/tasks/**/*
+Metrics/BlockLength:
+  Exclude:
+    - config/**/*
+    - lib/tasks/**/*
 Layout:
   Exclude:
     - config/environments/*
