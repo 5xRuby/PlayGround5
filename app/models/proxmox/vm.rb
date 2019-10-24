@@ -9,7 +9,7 @@ module Proxmox
 
       def find(id)
         id = id.to_i
-        all.find { |vm| vm.vmid == id }
+        all.find { |vm| vm.vmid.to_i == id }
       end
 
       def where(params = {})
