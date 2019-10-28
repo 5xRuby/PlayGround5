@@ -41,7 +41,7 @@ bundler-audit:
   before_script:
     - gem install bundler-audit
   script:
-    - bundle audit
+    - bundle audit --ignore CVE-2015-9284 # Ignore OmniAuth CVE
   allow_failure: true
 
 rspec:
